@@ -87,6 +87,8 @@ module.exports = async function ({ config, bot, formats }) {
     STAFF_REPLY_THREAD_ENABLED: "staffReplyThreadEnabled",
     STAFF_REPLY_THREAD_COLOR: "staffReplyThreadColor",
     STAFF_REPLY_DM_TIMESTAMP_ENABLE: "staffReplyDmTimestampEnabled",
+    STAFF_REPLY_ANONYMOUS_AVATAR: "staffReplyAnonymousAvatar",
+    STAFF_REPLY_ANONYMOUS_NAME: "staffReplyAnonymousName",
 
     // User -> Staff
     USER_REPLY_THREAD_ENABLED: "userReplyThreadEnabled",
@@ -112,6 +114,8 @@ module.exports = async function ({ config, bot, formats }) {
     [SETTING_NAMES.STAFF_REPLY_THREAD_ENABLED, true],
     [SETTING_NAMES.STAFF_REPLY_THREAD_COLOR, parseColor("#2ECC71")],
     [SETTING_NAMES.STAFF_REPLY_DM_TIMESTAMP_ENABLE, true],
+    [SETTING_NAMES.STAFF_REPLY_ANONYMOUS_AVATAR, "https://i.imgur.com/l4KKsaO.png"],
+    [SETTING_NAMES.STAFF_REPLY_ANONYMOUS_NAME, "L'équipe de modération / The moderation team"],
 
     // User -> Staff
     [SETTING_NAMES.USER_REPLY_THREAD_ENABLED, true],
@@ -155,7 +159,7 @@ module.exports = async function ({ config, bot, formats }) {
       }
     }
   }
-  
+
   // Do auto-value checks on boot instead of once every message
   const systemName = settings.get(SETTING_NAMES.CUSTOM_SYSTEM_NAME).toLowerCase() === "$botname" ? bot.user.username : settings.get(SETTING_NAMES.CUSTOM_SYSTEM_NAME);
 
@@ -193,8 +197,8 @@ module.exports = async function ({ config, bot, formats }) {
       };
     } else {
       embed.author = {
-        name: roleName,
-        icon_url: bot.user.avatarURL,
+        name: settings.get(SETTING_NAMES.STAFF_REPLY_ANONYMOUS_NAME),
+        icon_url: settings.get(SETTING_NAMES.STAFF_REPLY_ANONYMOUS_AVATAR),
       };
     }
 
